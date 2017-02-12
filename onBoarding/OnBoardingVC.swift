@@ -10,13 +10,14 @@ import UIKit
 
 class OnBoardingVC: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
 
-	let pages = ["OnBoarding1VC","OnBOarding2VC"]
+	let pages = ["OnBoarding1VC","OnBoarding2VC","OnBoarding3VC"]
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 
 		self.delegate = self
 		self.dataSource = self
+		print("OnBoardingVC up")
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -40,9 +41,11 @@ class OnBoardingVC: UIPageViewController, UIPageViewControllerDelegate, UIPageVi
 	func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
 		
 		if let idofVC = viewController.restorationIdentifier {
+			print("After VC: \(idofVC)")
 			if let index = pages.index(of: idofVC) {
-				if index < pages.count-1{
-					return self.storyboard?.instantiateViewController(withIdentifier: pages[index-1])
+				print("\(index)")
+				if index < pages.count - 1{
+					return self.storyboard?.instantiateViewController(withIdentifier: pages[index+1])
 				}
 			}
 		}
@@ -53,6 +56,7 @@ class OnBoardingVC: UIPageViewController, UIPageViewControllerDelegate, UIPageVi
 	func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 		
 		if let idofVC = viewController.restorationIdentifier {
+			print("Before VC: \(idofVC)")
 			if let index = pages.index(of: idofVC) {
 				if index > 0 {
 					return self.storyboard?.instantiateViewController(withIdentifier: pages[index-1])
@@ -71,6 +75,7 @@ class OnBoardingVC: UIPageViewController, UIPageViewControllerDelegate, UIPageVi
 	func presentationIndex(for pageViewController: UIPageViewController) -> Int {
 		
 		if let idofVC = viewControllers?.first?.restorationIdentifier {
+			print("Present VC: \(idofVC)")
 			if let index = pages.index(of: idofVC) {
 				return index
 			}
